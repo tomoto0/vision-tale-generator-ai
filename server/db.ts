@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, users, stories, Story, InsertStory } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -85,4 +85,73 @@ export async function getUser(id: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+// Story queries
+export async function createStory(story: InsertStory): Promise<Story | null> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot create story: database not available");
+    return null;
+  }
+
+  try {
+    await db.insert(stories).values(story);
+    const result = await db.select().from(stories).where(eq(stories.id, story.id)).limit(1);
+    return result.length > 0 ? result[0] : null;
+  } catch (error) {
+    console.error("[Database] Failed to create story:", error);
+    return null;
+  }
+}
+
+export async function getUserStories(userId: string): Promise<Story[]> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get stories: database not available");
+    return [];
+  }
+
+  try {
+    const result = await db
+      .select()
+      .from(stories)
+      .where(eq(stories.userId, userId))
+      .orderBy(desc(stories.createdAt));
+    return result;
+  } catch (error) {
+    console.error("[Database] Failed to get stories:", error);
+    return [];
+  }
+}
+
+export async function getStory(id: string): Promise<Story | null> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get story: database not available");
+    return null;
+  }
+
+  try {
+    const result = await db.select().from(stories).where(eq(stories.id, id)).limit(1);
+    return result.length > 0 ? result[0] : null;
+  } catch (error) {
+    console.error("[Database] Failed to get story:", error);
+    return null;
+  }
+}
+
+export async function deleteStory(id: string): Promise<boolean> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot delete story: database not available");
+    return false;
+  }
+
+  try {
+    await db.delete(stories).where(eq(stories.id, id));
+    return true;
+  } catch (error) {
+    console.error("[Database] Failed to delete story:", error);
+    return false;
+  }
+}
+

@@ -1,4 +1,4 @@
-import { mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { mysqlEnum, mysqlTable, text, timestamp, varchar, int } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -18,4 +18,23 @@ export const users = mysqlTable("users", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
-// TODO: Add your tables here
+/**
+ * Stories table to store generated narratives
+ */
+export const stories = mysqlTable("stories", {
+  id: varchar("id", { length: 64 }).primaryKey(),
+  userId: varchar("userId", { length: 64 }).notNull(),
+  imageUrl: text("imageUrl").notNull(),
+  imageDescription: text("imageDescription"),
+  story: text("story").notNull(),
+  title: varchar("title", { length: 255 }),
+  genre: varchar("genre", { length: 100 }),
+  mood: varchar("mood", { length: 100 }),
+  characters: text("characters"), // JSON array
+  setting: text("setting"),
+  createdAt: timestamp("createdAt").defaultNow(),
+  updatedAt: timestamp("updatedAt").defaultNow(),
+});
+
+export type Story = typeof stories.$inferSelect;
+export type InsertStory = typeof stories.$inferInsert;
