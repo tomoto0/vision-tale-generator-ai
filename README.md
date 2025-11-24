@@ -59,20 +59,20 @@ The application follows a modern full-stack architecture with clear separation o
                        │
 ┌──────────────────────▼──────────────────────────────────┐
 │                   Backend (Express 4)                   │
-│  - Express.js HTTP server                              │
-│  - tRPC 11 for type-safe RPC                           │
-│  - Zod for input validation                            │
-│  - OpenAI API integration (GPT-4o Vision)              │
-│  - S3 storage for image files                          │
+│  - Express.js HTTP server                             　　 │
+│  - tRPC 11 for type-safe RPC                           　　│
+│  - Zod for input validation                           　　 │
+│  - OpenAI API integration (GPT-4o Vision)             　　 │
+│  - S3 storage for image files                         　　 │
 └──────────────────────┬──────────────────────────────────┘
                        │
                        │ SQL Queries
                        │
 ┌──────────────────────▼──────────────────────────────────┐
 │            Database (MySQL/TiDB)                        │
-│  - Drizzle ORM for type-safe queries                   │
-│  - Users table (authentication)                        │
-│  - Stories table (narrative storage)                   │
+│  - Drizzle ORM for type-safe queries                  　　 │
+│  - Users table (authentication)                     　　   │
+│  - Stories table (narrative storage)                  　　 │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -543,5 +543,5 @@ For issues, questions, or suggestions:
 ---
 
 **Version**: 1.0.0  
-**Last Updated**: November 2024  
+**Last Updated**: November 2025  
 **Deployed At**: [https://visontale-fuo3u8u8.manus.space](https://visontale-fuo3u8u8.manus.space)
